@@ -41,7 +41,8 @@ je ne peux plus m'en passer, il est dans tous mes projets !
 ### Conversion en data.table
 
 Convertir un data.frame en data.table est fait classiquement avec la fonction `as.data.table()`. 
-Mais `data.table` fournit la fonction `setDF` moins gourmand en ressources (utile pour les gros datasets) puisqu'il n'oblige pas à copier l'objet en mémoire, contrairement au traditionnel `<-`.
+
+Mais `data.table` fournit la fonction `setDF()` moins gourmande en ressources (utile pour les gros datasets) puisqu'il n'oblige pas à copier l'objet en mémoire, contrairement au traditionnel `<-`.
 
 ```{r}
 data(iris)
@@ -76,6 +77,8 @@ DF2[,Sepal.Length:=0]
 head(DF2,3)
 head(DF,3)
 ```
+
+DF n'a pas été modifié. 
 
 C'est simple mais il faut le savoir.
 

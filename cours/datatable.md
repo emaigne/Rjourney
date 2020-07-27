@@ -40,10 +40,11 @@ tous mes projets \!
 ### Conversion en data.table
 
 Convertir un data.frame en data.table est fait classiquement avec la
-fonction `as.data.table()`. Mais `data.table` fournit la fonction
-`setDF` moins gourmand en ressources (utile pour les gros datasets)
-puisqu’il n’oblige pas à copier l’objet en mémoire, contrairement au
-traditionnel `<-`.
+fonction `as.data.table()`.
+
+Mais `data.table` fournit la fonction `setDF()` moins gourmande en
+ressources (utile pour les gros datasets) puisqu’il n’oblige pas à
+copier l’objet en mémoire, contrairement au traditionnel `<-`.
 
 ``` r
 data(iris)
@@ -122,6 +123,8 @@ head(DF,3)
     ## 1:          5.1         3.5          1.4         0.2  setosa
     ## 2:          4.9         3.0          1.4         0.2  setosa
     ## 3:          4.7         3.2          1.3         0.2  setosa
+
+DF n’a pas été modifié.
 
 C’est simple mais il faut le savoir.
 
