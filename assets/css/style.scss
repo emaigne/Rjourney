@@ -7,6 +7,25 @@ html {
     background: #9a9a9a;
 }
 
+.wrapper {
+    width: 900px;
+    margin: 0 auto;
+    background: #DEDEDE;
+    border-radius: 8px;
+    box-shadow: rgba(0,0,0,0.2) 0 0 0 1px, rgba(0,0,0,0.45) 0 3px 10px;
+}
+
+section {
+ padding 3px 30px;  
+}
+
+pre {
+    padding: 10px;
+    background: #5b5d61;
+    color: #f8f8f2;
+    margin: 0 -20px 20px;
+}
+
 header{
   background: #64755d;
   border-bottom: 1px solid #64755d;
@@ -16,6 +35,12 @@ header h1{
   color: #fff;
 }
 
+h2, h3{
+  color: #588646;
+  border-bottom: 1px solid #64755d;
+}
+
 code, pre {
     font-family: 'SourceCodePro', monospace;
+    color: #fff;
 }
