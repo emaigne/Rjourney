@@ -7,6 +7,15 @@ html {
   background: #9a9a9a;
 }
 
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: transparent;
+    font-weight: 450;
+}
+
 .wrapper {
   width: 900px;
   margin: 0 auto;
@@ -14,6 +23,21 @@ html {
   border-radius: 8px;
   box-shadow: rgba(0,0,0,0.2) 0 0 0 1px, rgba(0,0,0,0.45) 0 3px 10px;
 }
+
+.nav-tabs {
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    color: #333;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #db7d38;
+    border-bottom-color: #db7d38;
+    font-size: 18px;
+}
+
 
 section {
  padding: 3px 30px;  
@@ -37,6 +61,7 @@ header ul {
 
 header h1{
   color: #fff;
+  text-shadow: transparent;
 }
 
 h2, h3{
@@ -45,6 +70,18 @@ h2, h3{
 }
 
 code, pre {
+    font-family: 'SourceCodePro', monospace;
+    color: #040404;
+    font-weight: bold;
+}
+
+pre code {
   font-family: 'SourceCodePro', monospace;
   color: #fff;
+  font-weight: normal;
 }
+
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+    color: #ffbd3e;
+}
+
