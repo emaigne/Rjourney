@@ -2,8 +2,8 @@
 
 Des cours que j'ai donné ou non, sur des outils que j'utilise. 
 
-* [data.table](cours/datatable.html)
-* [shiny](cours/shiny.html)
+* [data.table](cours/datatable.md)
+* [shiny](cours/shiny.md)
 
 ## Des fonctions
 

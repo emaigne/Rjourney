@@ -2,9 +2,7 @@
 title: "data.table, mon amour"
 author: "Elise Maigné"
 date: "21/07/2020"
-output: 
-    blogdown::html_page:
-        highlight: tango
+output: jekyllthat::jekylldown
 ---
 
 ```{r setup, include=FALSE}

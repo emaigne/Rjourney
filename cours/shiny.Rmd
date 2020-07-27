@@ -2,9 +2,7 @@
 title: "Shiny pour tous"
 author: "Elise Maigné"
 date: "27/07/2020"
-output: 
-    blogdown::html_page:
-        highlight: tango
+output: jekyllthat::jekylldown
 ---
 
 ```{r setup, include=FALSE}
