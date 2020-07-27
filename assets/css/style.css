@@ -2,13 +2,10 @@
 ---
 
 @import "jekyll-theme-modernist";
-
 header{
   background: #749565;
   border-bottom: 1px solid #749565;
 }
-
 h1{
   color: #fff;
 }
-
