@@ -1,37 +1,12 @@
-## Welcome to GitHub Pages
+## Des petits cours d'introduction
 
-You can use the [editor on GitHub](https://github.com/emaigne/Rjourney/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+Des cours que j'ai donné ou non, sur des outils que j'utilise. 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+* [data.table](cours/datatable.html)
+* [shiny](cours/shiny.html)
 
-### Markdown
+## Des fonctions
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Des fonctions/programmes que j'utilise régulièrement, que je mets ici pour m'en rappeler ou pour les partager.
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/emaigne/Rjourney/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.

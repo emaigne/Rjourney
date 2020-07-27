@@ -1,0 +1,283 @@
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(data.table)</span></code></pre></div>
+<p>Je présente ici mon utilisation du package <code>data.table</code> que j’utilise depuis des années sous forme d’une rapide introduction pour s’y mettre.</p>
+<p>Depuis que j’ai commencé à l’utilisé pour pouvoir travailler sur un énorme fichier de données,
+je ne peux plus m’en passer, il est dans tous mes projets !</p>
+<p><strong>Les avantages que j’y trouve :</strong>
+- très rapide
+- particulièrement rapide pour les <code>merge</code>
+- très rapide en lecture/écriture de fichiers
+- moins verbeux que le R base
+- pratique pour travailler en groupes de valeurs
+- moins couteux en mémoire
+- est-ce que j’ai dit rapide ?</p>
+<p><strong>Des inconvénients :</strong>
+- pas vraiment tidyverse friendly
+- il y a un coût d’apprentissage de la syntaxe
+- travailler avec data.table sans connaitre sa fonction <code>copy()</code> est source d’erreurs, je l’ai appris à mes dépends !</p>
+<div id="usage-de-base" class="section level2">
+<h2>Usage de base</h2>
+<div id="conversion-en-data.table" class="section level3">
+<h3>Conversion en data.table</h3>
+<p>Convertir un data.frame en data.table est fait classiquement avec la fonction <code>as.data.table()</code>.
+Mais <code>data.table</code> fournit la fonction <code>setDF</code> moins gourmand en ressources (utile pour les gros datasets) puisqu’il n’oblige pas à copier l’objet en mémoire, contrairement au traditionnel <code>&lt;-</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span>(iris)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">setDT</span>(iris)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">class</span>(iris)</span></code></pre></div>
+<pre><code>## [1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+<p>On peut voir ici qu’un objet <code>data.table</code> est aussi dans la classe <code>data.frame</code>, ce qui veut dire que le base R s’applique sans problème à un objet data.table. Pas besoin de recoder toutes ses fonctions et ses programmes, bon point !</p>
+</div>
+<div id="fonction-copy-allocation-mémoire" class="section level3">
+<h3>Fonction copy (allocation mémoire) !!!</h3>
+<p>Puisqu’on parle de l’allocation mémoire, il faut savoir que <code>data.table</code> est similaire à de l’orienté objet.
+Le nom de l’objet utilisé dans R n’est en fait qu’un pointeur vers l’objet en mémoire.</p>
+<p>Concrètement ça veut dire que si on copie un objet DF, qui est un <code>data.table</code>, dans DF2 en utilisant la façon traditionnelle de R <code>&lt;-</code>, DF et DF2 pointeront tous les deux vers le même objet. Si on modifie DF2 (ou DF, ça marche dans les deux sens), ça modifiera aussi DF :</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>DF &lt;-<span class="st"> </span><span class="kw">as.data.table</span>(iris)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>DF2 &lt;-<span class="st"> </span>DF</span>
+<span id="cb4-3"><a href="#cb4-3"></a>DF2[,Sepal.Length<span class="op">:</span><span class="er">=</span><span class="dv">0</span>]</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="kw">head</span>(DF2)</span></code></pre></div>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1:            0         3.5          1.4         0.2  setosa
+## 2:            0         3.0          1.4         0.2  setosa
+## 3:            0         3.2          1.3         0.2  setosa
+## 4:            0         3.1          1.5         0.2  setosa
+## 5:            0         3.6          1.4         0.2  setosa
+## 6:            0         3.9          1.7         0.4  setosa</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">head</span>(DF)</span></code></pre></div>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1:            0         3.5          1.4         0.2  setosa
+## 2:            0         3.0          1.4         0.2  setosa
+## 3:            0         3.2          1.3         0.2  setosa
+## 4:            0         3.1          1.5         0.2  setosa
+## 5:            0         3.6          1.4         0.2  setosa
+## 6:            0         3.9          1.7         0.4  setosa</code></pre>
+<p>Si on ne sait pas ça ça peut vraiment créer des problèmes sans qu’on s’en rende compte.</p>
+<p>Pour créer un “vrai” nouvel objet en mémoire, on utilise alors la fonction <code>copy()</code> :</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>DF &lt;-<span class="st"> </span><span class="kw">as.data.table</span>(iris)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>DF2 &lt;-<span class="st"> </span><span class="kw">copy</span>(DF)</span>
+<span id="cb8-3"><a href="#cb8-3"></a>DF2[,Sepal.Length<span class="op">:</span><span class="er">=</span><span class="dv">0</span>]</span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="kw">head</span>(DF2,<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1:            0         3.5          1.4         0.2  setosa
+## 2:            0         3.0          1.4         0.2  setosa
+## 3:            0         3.2          1.3         0.2  setosa</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">head</span>(DF,<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1:          5.1         3.5          1.4         0.2  setosa
+## 2:          4.9         3.0          1.4         0.2  setosa
+## 3:          4.7         3.2          1.3         0.2  setosa</code></pre>
+<p>C’est simple mais il faut le savoir.</p>
+</div>
+<div id="lectureécriture-de-fichiers" class="section level3">
+<h3>Lecture/écriture de fichiers</h3>
+<p><code>data.table</code> fournit les fonctions <strong><code>fread</code></strong> et <strong><code>fwrite</code></strong> :</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">fwrite</span>(iris, <span class="dt">file=</span><span class="st">&quot;irisblank.csv&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>datatest &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;irisblank.csv&quot;</span>)</span></code></pre></div>
+<p>La fonction <em><code>fread</code></em> vient avec les options habituelles (<code>sep</code>, <code>nrows</code>, …) mais très souvent trouve toute seule la bonne combinaison. C’est rare que j’ai besoin de les spécifier… Très pratique toc_depth: 2!</p>
+<p>La magie en action :</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">data</span>(iris)</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="kw">fwrite</span>(iris, <span class="dt">file=</span><span class="st">&quot;irisblank.csv&quot;</span>, <span class="dt">sep=</span><span class="st">&quot; &quot;</span>)</span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="kw">fwrite</span>(iris, <span class="dt">file=</span><span class="st">&quot;iriscomma.csv&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;,&quot;</span>)</span>
+<span id="cb13-4"><a href="#cb13-4"></a>irisblank &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;irisblank.csv&quot;</span>)</span>
+<span id="cb13-5"><a href="#cb13-5"></a>iriscomma &lt;-<span class="st"> </span><span class="kw">fread</span>(<span class="st">&quot;iriscomma.csv&quot;</span>)</span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="kw">identical</span>(irisblank, iriscomma)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>Deux options utiles dont je me sert pour des très gros jeux de données sont les options <code>select</code> et <code>drop</code>
+pour présélectionner des colonnes au moment de la lecture du fichier, ce qui rend le fichier plus léger dès la lecture.</p>
+<p>Les fonctions <code>fread()</code> et <code>fwrite()</code> sont très rapides, notamment avec de gros jeux de données là où R sera lent, voire ne marchera pas du tout (out of memory), data.table est la (ma) solution !</p>
+</div>
+<div id="sytaxe-sélection-de-lignes-et-colonnes" class="section level3">
+<h3>Sytaxe (sélection de lignes et colonnes)</h3>
+<p>Le classique <code>object[rows, columns]</code> s’applique toujours, mais en moins verbeux, en évitant le <code>object$</code> dans les sélections, ainsi que les guillemets :</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">nrow</span>(irisblank[Sepal.Length<span class="op">&gt;</span><span class="dv">6</span>,]) <span class="co"># Virgule optionnelle ici</span></span></code></pre></div>
+<pre><code>## [1] 61</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">head</span>(irisblank[,.(Sepal.Length, Sepal.Width)], <span class="dv">3</span>) <span class="co"># Mais pas ici !</span></span></code></pre></div>
+<pre><code>##    Sepal.Length Sepal.Width
+## 1:          5.1         3.5
+## 2:          4.9         3.0
+## 3:          4.7         3.2</code></pre>
+<p>J’ai trouvé la syntaxe <code>.()</code> de la sélection de variables un peu dure à intégrer dans mes réflexes au départ mais on s’y fait vite.
+Mais c’est largement compensé par la suppression des <code>object$</code> ou des guillemets.</p>
+<p>La suppression des guillemets permet notamment l’auto complétion, encore un bon point !</p>
+</div>
+<div id="syntaxe-création-de-variables" class="section level3">
+<h3>Syntaxe : création de variables</h3>
+<p>Pour créer une nouvelle variable dans un objet <code>data.table</code>, on utilise les symboles <code>:=</code> avec la syntaxe suivante :</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>irisblank[, newvar <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>Sepal.Length]</span></code></pre></div>
+<p>Et voilà ! La syntaxe est aussi moins verbeuse que du R base …</p>
+<p>A noter que pour des syntaxes très complexes dans des créations de variables, au début j’ai parfois du mal à écrire en data.table ce que je voulais… Heureusement la syntaxe R basepour les data.frame s’applique sans problème, ça a un côté bien rassurant !</p>
+<p>Et voilà, déjà avec ces quelques éléments on peut démarrer avec <code>data.table</code> tranquillement.</p>
+</div>
+</div>
+<div id="utilisation-spécifique-à-data.table" class="section level2">
+<h2>Utilisation spécifique à data.table</h2>
+<p>en plus du gros avantage de la rapidité, <code>data.table</code> vient avec quelques nouveautés par rapport à data.frame qui permettent une manipulation de données très aisée :</p>
+<div id="syntaxe-by" class="section level3">
+<h3>Syntaxe : by</h3>
+<p>En plus de la syntaxe <code>object[rows, columns]</code>, data.table a une troisième dimension : <code>object[rows, columns, by]</code> pour faire des calculs groupés :</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>irisblank[, MeanSepLength_species <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">mean</span>(Sepal.Length), by=.(Species)]</span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="kw">head</span>(irisblank,<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species newvar
+## 1:          5.1         3.5          1.4         0.2  setosa   10.2
+## 2:          4.9         3.0          1.4         0.2  setosa    9.8
+## 3:          4.7         3.2          1.3         0.2  setosa    9.4
+##    MeanSepLength_species
+## 1:                 5.006
+## 2:                 5.006
+## 3:                 5.006</code></pre>
+<p>Avec la syntaxe <code>:=</code> on a rajouté la variable <code>MeanSepLength_species</code>, moyenne de <code>Sepal.Length</code> par valeur de <code>Species</code>.</p>
+<p>Le <code>.()</code> dans le by est optionnel si on n’a qu’une variable mais j’ai préféré prendre l’habitude de l’écrire pour garder une constance.</p>
+<p>On peut noter aussi que la syntaxe suivante marche :</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>bycol &lt;-<span class="st"> &quot;Species&quot;</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>irisblank[, MeanSepLength_species <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">mean</span>(Sepal.Length), by=bycol]</span></code></pre></div>
+<p>Ce qui permet d’neevoyer une varaible (character vector) dans le by.</p>
+<p>On aurait pu aussi ne pas rajouter la variable dans l’object lui même mais créer un vecteur sans redondance avec la fonction de sélection <code>.()</code> directement au moment du calcul :</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>irisblank[, .(<span class="dt">MeanSepLength_species =</span> <span class="kw">mean</span>(Sepal.Length)), by=.(Species)]</span></code></pre></div>
+<pre><code>##       Species MeanSepLength_species
+## 1:     setosa                 5.006
+## 2: versicolor                 5.936
+## 3:  virginica                 6.588</code></pre>
+<p>La subtilité ici est sur le <code>=</code>, on n’utilise le <code>:=</code> que pour créer une (ou plusieurs) nouvelle variable dans l’objet.</p>
+</div>
+<div id="création-de-plusieurs-variables-à-la-fois" class="section level3">
+<h3>Création de plusieurs variables à la fois</h3>
+<p>Pour créer par exemple un jeu de données des moyennes des variable par <code>Species</code>, on peut procéder de la façon suivante :</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>stat_seplength &lt;-<span class="st"> </span>irisblank[, .(<span class="dt">MeanSepLength_species =</span> <span class="kw">mean</span>(Sepal.Length),</span>
+<span id="cb25-2"><a href="#cb25-2"></a>                                <span class="dt">SdSepLength_species =</span> <span class="kw">sd</span>(Sepal.Length)), by=.(<span class="dt">Espece =</span> Species)]</span></code></pre></div>
+<p>A noter le renommage de la variable <code>Species</code> au même moment, très pratique.</p>
+<p>Si on avait voulu créer ces variables directement dans le jeu de données, on va remplacer la fonction <code>.()</code> par la fonction `<code></code>:=<code>()</code> `:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>irisblank[, <span class="st">`</span><span class="dt">:=</span><span class="st">`</span>(<span class="dt">MeanSepLength_species =</span> <span class="kw">mean</span>(Sepal.Length),</span>
+<span id="cb26-2"><a href="#cb26-2"></a>                 <span class="dt">SdSepLength_species =</span> <span class="kw">sd</span>(Sepal.Length)), by=.(Species)]</span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="kw">head</span>(irisblank,<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species newvar
+## 1:          5.1         3.5          1.4         0.2  setosa   10.2
+## 2:          4.9         3.0          1.4         0.2  setosa    9.8
+## 3:          4.7         3.2          1.3         0.2  setosa    9.4
+##    MeanSepLength_species SdSepLength_species
+## 1:                 5.006           0.3524897
+## 2:                 5.006           0.3524897
+## 3:                 5.006           0.3524897</code></pre>
+</div>
+<div id="autre-tips" class="section level3">
+<h3>Autre “tips”</h3>
+<div id="enchainement-dopérations" class="section level4">
+<h4>Enchainement d’opérations :</h4>
+<p>Il est possible d’enchainer les opérations avec une succession de crochets :</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>irisblank[, MeanSepLength_species <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="kw">mean</span>(Sepal.Length), by=.(Species)][,.(<span class="dt">MyDoubleMean =</span> <span class="dv">2</span><span class="op">*</span>MeanSepLength_species)]</span></code></pre></div>
+<pre><code>##      MyDoubleMean
+##   1:       10.012
+##   2:       10.012
+##   3:       10.012
+##   4:       10.012
+##   5:       10.012
+##  ---             
+## 146:       13.176
+## 147:       13.176
+## 148:       13.176
+## 149:       13.176
+## 150:       13.176</code></pre>
+</div>
+<div id="variable-.n" class="section level4">
+<h4>Variable .N</h4>
+<p><code>data.table</code> vient avec la variable <code>.N</code> qui contient le nombre d’observations. Voyons la en action :</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>irisblank[, .(<span class="dt">nbobs_species =</span> .N), by=.(Species)]</span></code></pre></div>
+<pre><code>##       Species nbobs_species
+## 1:     setosa            50
+## 2: versicolor            50
+## 3:  virginica            50</code></pre>
+<p>Pratique pour l’intégrer dans des calculs :</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>irisblank[, numobs_species <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span>.N, by=.(Species)]</span>
+<span id="cb32-2"><a href="#cb32-2"></a><span class="kw">head</span>(irisblank)</span></code></pre></div>
+<pre><code>##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species newvar
+## 1:          5.1         3.5          1.4         0.2  setosa   10.2
+## 2:          4.9         3.0          1.4         0.2  setosa    9.8
+## 3:          4.7         3.2          1.3         0.2  setosa    9.4
+## 4:          4.6         3.1          1.5         0.2  setosa    9.2
+## 5:          5.0         3.6          1.4         0.2  setosa   10.0
+## 6:          5.4         3.9          1.7         0.4  setosa   10.8
+##    MeanSepLength_species SdSepLength_species numobs_species
+## 1:                 5.006           0.3524897              1
+## 2:                 5.006           0.3524897              2
+## 3:                 5.006           0.3524897              3
+## 4:                 5.006           0.3524897              4
+## 5:                 5.006           0.3524897              5
+## 6:                 5.006           0.3524897              6</code></pre>
+</div>
+<div id="et-bien-dautres" class="section level4">
+<h4>Et bien d’autres !</h4>
+<p>Les fonctions bien nommées <code>setnames()</code>, <code>setorder()</code>, <code>setcolorder()</code>…</p>
+<p>La suppression de variable :</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>irisblank[, numobs_species <span class="op">:</span><span class="er">=</span><span class="st"> </span><span class="ot">NULL</span>]</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="pour-aller-plus-loin" class="section level2">
+<h2>Pour aller plus loin</h2>
+<p><a href="https://github.com/Rdatatable/data.table" class="uri">https://github.com/Rdatatable/data.table</a></p>
+<p>The cheat sheet : <a href="https://raw.githubusercontent.com/rstudio/cheatsheets/master/datatable.pdf" class="uri">https://raw.githubusercontent.com/rstudio/cheatsheets/master/datatable.pdf</a></p>
+</div>
