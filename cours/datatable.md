@@ -5,6 +5,8 @@ date: "21/07/2020"
 output: jekyllthat::jekylldown
 ---
 
+# data.table, mon amour
+
 ``` r
 library(data.table)
 ```
@@ -16,15 +18,22 @@ Depuis que j’ai commencé à l’utilisé pour pouvoir travailler sur un
 énorme fichier de données, je ne peux plus m’en passer, il est dans
 tous mes projets \!
 
-**Les avantages que j’y trouve :** - très rapide - particulièrement
-rapide pour les `merge` - très rapide en lecture/écriture de fichiers -
-moins verbeux que le R base - pratique pour travailler en groupes de
-valeurs - moins couteux en mémoire - est-ce que j’ai dit rapide ?
+**Les avantages que j’y trouve :**
 
-**Des inconvénients :** - pas vraiment tidyverse friendly - il y a un
-coût d’apprentissage de la syntaxe - travailler avec data.table sans
-connaitre sa fonction `copy()` est source d’erreurs, je l’ai appris à
-mes dépends \!
+  - très rapide
+  - particulièrement rapide pour les `merge`
+  - très rapide en lecture/écriture de fichiers
+  - moins verbeux que le R base
+  - pratique pour travailler en groupes de valeurs
+  - moins couteux en mémoire
+  - est-ce que j’ai dit rapide ?
+
+**Des inconvénients :**
+
+  - pas vraiment tidyverse friendly
+  - il y a un coût d’apprentissage de la syntaxe
+  - travailler avec data.table sans connaitre sa fonction `copy()` est
+    source d’erreurs, je l’ai appris à mes dépends \!
 
 ## Usage de base
 
