@@ -5,6 +5,8 @@ date: "21/07/2020"
 output: jekyllthat::jekylldown
 ---
 
+# data.table, mon amour
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
