@@ -63,8 +63,8 @@ Concrètement ça veut dire que si on copie un objet DF, qui est un `data.table`
 ```{r}
 DF <- as.data.table(iris)
 DF2 <- DF
-DF2[,Sepal.Length:=0]
-head(DF,3)
+DF2[, Sepal.Length := 0]
+head(DF, 3)
 ```
 
 Si on ne sait pas ça ça peut vraiment créer des problèmes sans qu'on s'en rende compte. 
@@ -74,9 +74,9 @@ Pour créer un "vrai"  nouvel objet en mémoire, on utilise alors la fonction `c
 ```{r}
 DF <- as.data.table(iris)
 DF2 <- copy(DF)
-DF2[,Sepal.Length:=0]
-head(DF2,3)
-head(DF,3)
+DF2[, Sepal.Length := 0]
+head(DF2, 3)
+head(DF, 3)
 ```
 
 DF n'a pas été modifié. 
@@ -115,8 +115,8 @@ Les fonctions `fread()` et `fwrite()` sont très rapides, notamment avec de gros
 Le classique `object[rows, columns]` s'applique toujours, mais en moins verbeux, en évitant le `object$` dans les sélections, ainsi que les guillemets :
 
 ```{r}
-nrow(irisblank[Sepal.Length>6,]) # Virgule optionnelle ici
-head(irisblank[,.(Sepal.Length, Sepal.Width)], 3) # Mais pas ici !
+nrow(irisblank[Sepal.Length>6, ]) # Virgule optionnelle ici
+head(irisblank[, .(Sepal.Length, Sepal.Width)], 3) # Mais pas ici !
 ```
 
 J'ai trouvé la syntaxe `.()` de la sélection de variables un peu dure à intégrer dans mes réflexes au départ mais on s'y fait vite.
@@ -147,7 +147,7 @@ en plus du gros avantage de la rapidité, `data.table` vient avec quelques nouve
 En plus de la syntaxe `object[rows, columns]`, data.table a une troisième dimension : `object[rows, columns, by]` pour faire des calculs groupés :
 
 ```{r}
-irisblank[, MeanSepLength_species := mean(Sepal.Length), by=.(Species)]
+irisblank[, MeanSepLength_species := mean(Sepal.Length), by= .(Species)]
 head(irisblank,3)
 ```
 
@@ -166,7 +166,7 @@ Ce qui permet d'envoyer une variable (character vector) dans le by.
 On aurait pu aussi ne pas rajouter la variable dans l'object lui même mais créer un vecteur sans redondance avec la fonction de sélection `.()` directement au moment du calcul :
 
 ```{r}
-irisblank[, .(MeanSepLength_species = mean(Sepal.Length)), by=.(Species)]
+irisblank[, .(MeanSepLength_species = mean(Sepal.Length)), by = .(Species)]
 ```
 
 La subtilité ici est sur le `=`, on n'utilise le `:=` que pour créer une (ou plusieurs) nouvelle variable dans l'objet. 
@@ -197,7 +197,7 @@ head(irisblank,3)
 Il est possible d'enchainer les opérations avec une succession de crochets : 
 
 ```{r}
-irisblank[, MeanSepLength_species := mean(Sepal.Length), by=.(Species)][,.(MyDoubleMean = 2*MeanSepLength_species)]
+irisblank[, MeanSepLength_species := mean(Sepal.Length), by = .(Species)][, .(MyDoubleMean = 2*MeanSepLength_species)]
 ```
 
 #### Variable .N
@@ -205,7 +205,7 @@ irisblank[, MeanSepLength_species := mean(Sepal.Length), by=.(Species)][,.(MyDou
 `data.table` vient avec la variable `.N` qui contient le nombre d'observations. Voyons la en action :
 
 ```{r}
-irisblank[, .(nbobs_species = .N), by=.(Species)]
+irisblank[, .(nbobs_species = .N), by = .(Species)]
 ```
 
 Pratique pour l'intégrer dans des calculs :
@@ -223,6 +223,14 @@ La suppression de variable :
 ```{r}
 irisblank[, numobs_species := NULL]
 ```
+
+
+`.SD` est une variable qui retourne le nom des colonnes.
+```{r}
+irisblank[, lapply(.SD, sum), by = "Species"]
+irisblank[, lapply(.SD, sum), by = "Species", .SDcols = -"newvar"]
+```
+
 
 ## Pour aller plus loin
 

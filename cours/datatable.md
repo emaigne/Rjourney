@@ -42,7 +42,7 @@ tous mes projets \!
 Convertir un data.frame en data.table est fait classiquement avec la
 fonction `as.data.table()`.
 
-Mais `data.table` fournit la fonction `setDF()` moins gourmande en
+Mais `data.table` fournit la fonction `setDT()` moins gourmande en
 ressources (utile pour les gros datasets) puisqu’il n’oblige pas à
 copier l’objet en mémoire, contrairement au traditionnel `<-`.
 
@@ -73,29 +73,14 @@ DF et DF2 pointeront tous les deux vers le même objet. Si on modifie DF2
 ``` r
 DF <- as.data.table(iris)
 DF2 <- DF
-DF2[,Sepal.Length:=0]
-head(DF2)
+DF2[, Sepal.Length := 0]
+head(DF, 3)
 ```
 
     ##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
     ## 1:            0         3.5          1.4         0.2  setosa
     ## 2:            0         3.0          1.4         0.2  setosa
     ## 3:            0         3.2          1.3         0.2  setosa
-    ## 4:            0         3.1          1.5         0.2  setosa
-    ## 5:            0         3.6          1.4         0.2  setosa
-    ## 6:            0         3.9          1.7         0.4  setosa
-
-``` r
-head(DF)
-```
-
-    ##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-    ## 1:            0         3.5          1.4         0.2  setosa
-    ## 2:            0         3.0          1.4         0.2  setosa
-    ## 3:            0         3.2          1.3         0.2  setosa
-    ## 4:            0         3.1          1.5         0.2  setosa
-    ## 5:            0         3.6          1.4         0.2  setosa
-    ## 6:            0         3.9          1.7         0.4  setosa
 
 Si on ne sait pas ça ça peut vraiment créer des problèmes sans qu’on
 s’en rende compte.
@@ -106,8 +91,8 @@ fonction `copy()` :
 ``` r
 DF <- as.data.table(iris)
 DF2 <- copy(DF)
-DF2[,Sepal.Length:=0]
-head(DF2,3)
+DF2[, Sepal.Length := 0]
+head(DF2, 3)
 ```
 
     ##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
@@ -116,7 +101,7 @@ head(DF2,3)
     ## 3:            0         3.2          1.3         0.2  setosa
 
 ``` r
-head(DF,3)
+head(DF, 3)
 ```
 
     ##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
@@ -139,8 +124,7 @@ datatest <- fread("irisblank.csv")
 
 La fonction *`fread`* vient avec les options habituelles (`sep`,
 `nrows`, …) mais très souvent trouve toute seule la bonne combinaison.
-C’est rare que j’ai besoin de les spécifier… Très pratique toc\_depth:
-2\!
+C’est rare que j’ai besoin de les spécifier… Très pratique \!
 
 La magie en action :
 
@@ -171,13 +155,13 @@ verbeux, en évitant le `object$` dans les sélections, ainsi que les
 guillemets :
 
 ``` r
-nrow(irisblank[Sepal.Length>6,]) # Virgule optionnelle ici
+nrow(irisblank[Sepal.Length>6, ]) # Virgule optionnelle ici
 ```
 
     ## [1] 61
 
 ``` r
-head(irisblank[,.(Sepal.Length, Sepal.Width)], 3) # Mais pas ici !
+head(irisblank[, .(Sepal.Length, Sepal.Width)], 3) # Mais pas ici !
 ```
 
     ##    Sepal.Length Sepal.Width
@@ -224,7 +208,7 @@ troisième dimension : `object[rows, columns, by]` pour faire des
 calculs groupés :
 
 ``` r
-irisblank[, MeanSepLength_species := mean(Sepal.Length), by=.(Species)]
+irisblank[, MeanSepLength_species := mean(Sepal.Length), by= .(Species)]
 head(irisblank,3)
 ```
 
@@ -250,14 +234,14 @@ bycol <- "Species"
 irisblank[, MeanSepLength_species := mean(Sepal.Length), by=bycol]
 ```
 
-Ce qui permet d’neevoyer une varaible (character vector) dans le by.
+Ce qui permet d’envoyer une variable (character vector) dans le by.
 
 On aurait pu aussi ne pas rajouter la variable dans l’object lui même
 mais créer un vecteur sans redondance avec la fonction de sélection
 `.()` directement au moment du calcul :
 
 ``` r
-irisblank[, .(MeanSepLength_species = mean(Sepal.Length)), by=.(Species)]
+irisblank[, .(MeanSepLength_species = mean(Sepal.Length)), by = .(Species)]
 ```
 
     ##       Species MeanSepLength_species
@@ -308,7 +292,7 @@ Il est possible d’enchainer les opérations avec une succession de
 crochets :
 
 ``` r
-irisblank[, MeanSepLength_species := mean(Sepal.Length), by=.(Species)][,.(MyDoubleMean = 2*MeanSepLength_species)]
+irisblank[, MeanSepLength_species := mean(Sepal.Length), by = .(Species)][, .(MyDoubleMean = 2*MeanSepLength_species)]
 ```
 
     ##      MyDoubleMean
@@ -330,7 +314,7 @@ irisblank[, MeanSepLength_species := mean(Sepal.Length), by=.(Species)][,.(MyDou
 d’observations. Voyons la en action :
 
 ``` r
-irisblank[, .(nbobs_species = .N), by=.(Species)]
+irisblank[, .(nbobs_species = .N), by = .(Species)]
 ```
 
     ##       Species nbobs_species
@@ -369,6 +353,34 @@ La suppression de variable :
 ``` r
 irisblank[, numobs_species := NULL]
 ```
+
+`.SD` est une variable qui retourne le nom des colonnes.
+
+``` r
+irisblank[, lapply(.SD, sum), by = "Species"]
+```
+
+    ##       Species Sepal.Length Sepal.Width Petal.Length Petal.Width newvar
+    ## 1:     setosa        250.3       171.4         73.1        12.3  500.6
+    ## 2: versicolor        296.8       138.5        213.0        66.3  593.6
+    ## 3:  virginica        329.4       148.7        277.6       101.3  658.8
+    ##    MeanSepLength_species SdSepLength_species
+    ## 1:                 250.3            17.62448
+    ## 2:                 296.8            25.80856
+    ## 3:                 329.4            31.79398
+
+``` r
+irisblank[, lapply(.SD, sum), by = "Species", .SDcols = -"newvar"]
+```
+
+    ##       Species Sepal.Length Sepal.Width Petal.Length Petal.Width
+    ## 1:     setosa        250.3       171.4         73.1        12.3
+    ## 2: versicolor        296.8       138.5        213.0        66.3
+    ## 3:  virginica        329.4       148.7        277.6       101.3
+    ##    MeanSepLength_species SdSepLength_species
+    ## 1:                 250.3            17.62448
+    ## 2:                 296.8            25.80856
+    ## 3:                 329.4            31.79398
 
 ## Pour aller plus loin
 
