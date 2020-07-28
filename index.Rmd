@@ -1,5 +1,4 @@
 ---
-title: My journey through R
 output: 
   html_document:
     css: assets/css/mycss.css
