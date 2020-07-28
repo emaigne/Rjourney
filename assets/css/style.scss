@@ -12,7 +12,7 @@ body {
     font-size: 14px;
     line-height: 1.42857143;
     color: #333;
-    background-color: transparent;
+    background: #fff0;
     font-weight: 450;
 }
 
@@ -85,3 +85,9 @@ pre code {
     color: #ffbd3e;
 }
 
+.sitelink {
+  color: #fff;
+  text-shadow: rgba(255,255,255,0.9) 0 0px 0;
+  font-size: 24px;
+  line-height: 1.2;
+}
