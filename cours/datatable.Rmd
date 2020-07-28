@@ -44,7 +44,7 @@ je ne peux plus m'en passer, il est dans tous mes projets !
 
 Convertir un data.frame en data.table est fait classiquement avec la fonction `as.data.table()`. 
 
-Mais `data.table` fournit la fonction `setDF()` moins gourmande en ressources (utile pour les gros datasets) puisqu'il n'oblige pas à copier l'objet en mémoire, contrairement au traditionnel `<-`.
+Mais `data.table` fournit la fonction `setDT()` moins gourmande en ressources (utile pour les gros datasets) puisqu'il n'oblige pas à copier l'objet en mémoire, contrairement au traditionnel `<-`.
 
 ```{r}
 data(iris)
@@ -64,8 +64,7 @@ Concrètement ça veut dire que si on copie un objet DF, qui est un `data.table`
 DF <- as.data.table(iris)
 DF2 <- DF
 DF2[,Sepal.Length:=0]
-head(DF2)
-head(DF)
+head(DF,3)
 ```
 
 Si on ne sait pas ça ça peut vraiment créer des problèmes sans qu'on s'en rende compte. 
@@ -93,7 +92,7 @@ fwrite(iris, file="irisblank.csv")
 datatest <- fread("irisblank.csv")
 ```
 
-La fonction *`fread`* vient avec les options habituelles (`sep`, `nrows`, ...) mais très souvent trouve toute seule la bonne combinaison. C'est rare que j'ai besoin de les spécifier... Très pratique toc_depth: 2!
+La fonction *`fread`* vient avec les options habituelles (`sep`, `nrows`, ...) mais très souvent trouve toute seule la bonne combinaison. C'est rare que j'ai besoin de les spécifier... Très pratique !
 
 La magie en action :
 
@@ -162,7 +161,7 @@ bycol <- "Species"
 irisblank[, MeanSepLength_species := mean(Sepal.Length), by=bycol]
 ```
 
-Ce qui permet d'neevoyer une varaible (character vector) dans le by. 
+Ce qui permet d'envoyer une variable (character vector) dans le by. 
 
 On aurait pu aussi ne pas rajouter la variable dans l'object lui même mais créer un vecteur sans redondance avec la fonction de sélection `.()` directement au moment du calcul :
 
