@@ -1,0 +1,31 @@
+---
+title: My journey through R
+output: 
+  html_document:
+    css: assets/css/mycss.css
+layout: default
+---
+# {.tabset}
+
+## Des petits cours d'introduction 
+
+<br>
+<br>
+
+Des cours que j'ai donné ou non, sur des outils que j'utilise. 
+
+* [data.table](cours/datatable.html)
+* [shiny](cours/shiny.html)
+
+<br>
+<br>
+
+## Des fonctions
+<br>
+<br>
+
+Des fonctions/programmes que j'utilise régulièrement, que je mets ici pour m'en rappeler ou pour les partager.
+
+
+<br>
+<br>
