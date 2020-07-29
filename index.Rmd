@@ -9,7 +9,6 @@ layout: default
 ## Des petits cours d'introduction 
 
 <br>
-<br>
 
 Des cours que j'ai donné ou non, sur des outils que j'utilise. 
 
@@ -20,18 +19,20 @@ Des cours que j'ai donné ou non, sur des outils que j'utilise.
 <br>
 
 ## Des bouts de code
+
+<br>
+
+Des fonctions/programmes que j'utilise, que je mets ici pour m'en rappeler et/ou pour les partager.
+
 <br>
 <br>
 
-Des fonctions/programmes que j'utilise régulièrement, que je mets ici pour m'en rappeler ou pour les partager.
-<br>
-
-[c'est par là !](codes/codes.html)
+[PAR ICI !](codes/codes.html)
 
 Dedans il y a : 
 
-- du benchmark
-
+- du [benchmark] de code(codes/codes.html#benchmarking)
+rien d'autre pour le moment...
 
 
 <br>

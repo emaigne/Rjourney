@@ -19,13 +19,14 @@ La structure générale est la suivante :
 ```{r, eval=FALSE}
 library(rbenchmark)
 
-benchmark(replications=rep(100),
+benchmark(replications=100,
           code1,
           code2,
           columns=c('test', 'elapsed', 'replications'))
 
 ```
 
+Et avec un exemple :
 
 ```{r}
 library(rbenchmark)
