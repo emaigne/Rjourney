@@ -19,12 +19,14 @@ Des cours que j'ai donné ou non, sur des outils que j'utilise.
 <br>
 <br>
 
-## Des fonctions
+## Des bouts de code
 <br>
 <br>
 
 Des fonctions/programmes que j'utilise régulièrement, que je mets ici pour m'en rappeler ou pour les partager.
+<br>
 
+[c'est par là !](codes/codes.html)
 
 <br>
 <br>
