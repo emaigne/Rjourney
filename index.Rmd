@@ -28,5 +28,11 @@ Des fonctions/programmes que j'utilise régulièrement, que je mets ici pour m'e
 
 [c'est par là !](codes/codes.html)
 
+Dedans il y a : 
+
+- du benchmark
+
+
+
 <br>
 <br>
