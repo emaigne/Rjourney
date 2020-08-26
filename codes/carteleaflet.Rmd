@@ -1,5 +1,5 @@
 ---
-title: "usefull codes"
+title: "Faire une carte avec leaflet"
 output: html_document
 ---
 
@@ -7,44 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-## Benchmarking
-
-Pour comparer la vitesse de 2 bouts de codes (ou plus que 2), on utilise le package rbenchmark.
-
-La structure générale est la suivante : 
-
-```{r, eval=FALSE}
-library(rbenchmark)
-
-benchmark(replications=100,
-          code1,
-          code2,
-          columns=c('test', 'elapsed', 'replications'))
-
-```
-
-Et avec un exemple :
-
-```{r}
-library(rbenchmark)
-library(data.table)
-
-# Ecriture d'un fichier de 15000 lignes 
-data(iris)
-iris <- iris[rep(rownames(iris), each=100),]
-fwrite(iris, file="irisbig.csv", sep=",")
-
-# Lecture du fichier, répétée 1000 fois. 
-benchmark(replications=rep(1000),
-          test1 <- read.csv("irisbig.csv", sep=","),
-          test2 <- fread("irisbig.csv"),
-          columns=c('test', 'elapsed', 'replications'))
-```
-Le test2, utilisant la fonction `fread` du package `data.table` est bien plus rapide. 
-
-
-## Faire une carte avec R (et leaflet)
+## Chargement/préparation données
 
 Pour faire une carte (ici des polygones), il faut des données, et un fond de carte correspondant.
 
@@ -87,43 +50,23 @@ is.character(bureaux@data$bv2020)
 bureaux@data <- merge(bureaux@data, votes, by.x="bv2020", by.y="Numéro.bdv", all=T, sort=F)
 ```
 **Attention dans le merge ci-dessus, le `sort=F` est primordial** pour ne pas retrier les données avec la colonne `bv2020` lors du merge. 
-Si le tri est fait, les objects `bureaux@data` et `bureaux@polygons` ne seront pas triès de la même façon, et ne correspondront donc pas, on aura les bons polygones mais pas les bonnes donénes dessus. 
+Si le tri est fait, les objects `bureaux@data` et `bureaux@polygons` ne seront pas triès de la même façon, et ne correspondront donc pas, on aura les bons polygones mais pas les bonnes données dessus. 
+
+## Carte
 
 On peut maintenant faire la carte :
 
 ```{r}
 library(leaflet)
 
-# Pour la palette
-binsmap <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, Inf)
-pal <- colorBin(colorRamp(c("#006633", "#FFFFFF", "#660000")), domain = c(0,1), bins = binsmap)
-
-m <- leaflet(bureaux) %>%
-  addTiles() %>% 
-  addPolygons(fillColor = ~pal(Pct_abstention), 
-              color="black", 
-              weight = 0.5, 
-              opacity = 1, 
-              fillOpacity=0.9,
-              highlight = highlightOptions(weight = 4,
-                                           fillOpacity = 1,
-                                           bringToFront = TRUE))
-m
-
-```
-
-En ajoutant des labels :
-
-```{r}
-# Création des labels :
-
+# Création des labels quand on passera la souris sur la carte :
 labels <- sprintf(
-  "<strong>%s</strong>, BDV %s<br/> %g Abstention<br/>",
-  bureaux$nom, bureaux$bv2020, round(100*bureaux$Pct_abstention,2)
+  "<strong>%s</strong>, BDV %s<br/> Abstention %s<br/>",
+  bureaux$nom, bureaux$bv2020, paste(round(100*bureaux$Pct_abstention,2),"%")
 ) %>% lapply(htmltools::HTML)
-
 bureaux@data$labelsmap <- labels
 
+# Pour la palette de couleurs
 binsmap <- c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, Inf)
 pal <- colorBin(colorRamp(c("#006633", "#FFFFFF", "#660000")), domain = c(0,1), bins = binsmap)
 
@@ -140,7 +83,7 @@ m <- leaflet(bureaux) %>%
               label = bureaux$labelsmap,
               labelOptions = labelOptions(
                 style = list("font-weight" = "normal", padding = "3px 8px"),
-                textsize = "8px",
+                textsize = "12px",
                 direction = "auto"))
 m
 

@@ -24,15 +24,8 @@ Des cours que j'ai donné ou non, sur des outils que j'utilise.
 
 Des fonctions/programmes que j'utilise, que je mets ici pour m'en rappeler et/ou pour les partager.
 
-<br>
-<br>
-
-[PAR ICI !](codes/codes.html)
-
-Dedans il y a : 
-
-- du [benchmark] de code(codes/codes.html#benchmarking)
-rien d'autre pour le moment...
+* [benchmarking](codess/benchmarking.html)
+* [faire une carte avec leaflet](codes/carteleaflet.html)
 
 
 <br>
