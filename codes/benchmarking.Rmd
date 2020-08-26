@@ -37,8 +37,8 @@ fwrite(iris, file="irisbig.csv", sep=",")
 
 # Lecture du fichier, répétée 1000 fois. 
 benchmark(replications=1000,
-          test1 <- read.csv("irisbig.csv", sep=","),
-          test2 <- fread("irisbig.csv"),
+          read.csv("irisbig.csv", sep=","),
+          fread("irisbig.csv"),
           columns=c('test', 'elapsed', 'replications'))
 ```
 
@@ -49,11 +49,12 @@ De la même manière on peut utiliser le package microbenchmark qui a l'avantage
 ```{r}
 library(microbenchmark)
 library(ggplot2)
-
+rm(test1)
+rm(test2)
 # Lecture du fichier, répétée 1000 fois. 
 mb <- microbenchmark(
-          test1 <- read.csv("irisbig.csv", sep=","),
-          test2 <- fread("irisbig.csv"),
+          read.csv("irisbig.csv", sep=","),
+          fread("irisbig.csv"),
           times=1000)
 
 mb

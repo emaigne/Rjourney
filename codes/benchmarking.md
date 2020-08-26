@@ -32,14 +32,14 @@ fwrite(iris, file="irisbig.csv", sep=",")
 
 # Lecture du fichier, répétée 1000 fois. 
 benchmark(replications=1000,
-          test1 <- read.csv("irisbig.csv", sep=","),
-          test2 <- fread("irisbig.csv"),
+          read.csv("irisbig.csv", sep=","),
+          fread("irisbig.csv"),
           columns=c('test', 'elapsed', 'replications'))
 ```
 
-    ##                                          test elapsed replications
-    ## 1 test1 <- read.csv("irisbig.csv", sep = ",")  13.981         1000
-    ## 2               test2 <- fread("irisbig.csv")   1.964         1000
+    ##                                 test elapsed replications
+    ## 2               fread("irisbig.csv")   1.980         1000
+    ## 1 read.csv("irisbig.csv", sep = ",")  14.069         1000
 
 Le test2, utilisant la fonction `fread` du package `data.table` est bien
 plus rapide.
@@ -50,23 +50,34 @@ l’avantage d’avoir une belle visualisation avec ggplot2 :
 ``` r
 library(microbenchmark)
 library(ggplot2)
+rm(test1)
+```
 
+    ## Warning in rm(test1): objet 'test1' introuvable
+
+``` r
+rm(test2)
+```
+
+    ## Warning in rm(test2): objet 'test2' introuvable
+
+``` r
 # Lecture du fichier, répétée 1000 fois. 
 mb <- microbenchmark(
-          test1 <- read.csv("irisbig.csv", sep=","),
-          test2 <- fread("irisbig.csv"),
+          read.csv("irisbig.csv", sep=","),
+          fread("irisbig.csv"),
           times=1000)
 
 mb
 ```
 
     ## Unit: milliseconds
-    ##                                         expr       min        lq      mean
-    ##  test1 <- read.csv("irisbig.csv", sep = ",") 13.431326 14.167680 14.801448
-    ##                test2 <- fread("irisbig.csv")  1.591833  1.720852  1.898354
-    ##    median        uq      max neval cld
-    ##  14.57999 14.991125 58.23019  1000   b
-    ##   1.79959  1.905103 48.87562  1000  a
+    ##                                expr       min        lq      mean    median
+    ##  read.csv("irisbig.csv", sep = ",") 13.361997 13.754532 14.385080 13.999627
+    ##                fread("irisbig.csv")  1.586168  1.650656  1.818022  1.755421
+    ##         uq       max neval cld
+    ##  14.356337 73.857086  1000   b
+    ##   1.858666  4.827518  1000  a
 
 ``` r
 autoplot(mb)
