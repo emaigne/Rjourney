@@ -24,7 +24,7 @@ Des cours que j'ai donné ou non, sur des outils que j'utilise.
 
 Des fonctions/programmes que j'utilise, que je mets ici pour m'en rappeler et/ou pour les partager.
 
-* [benchmarking](codess/benchmarking.html)
+* [benchmarking](codes/benchmarking.html)
 * [faire une carte avec leaflet](codes/carteleaflet.html)
 
 
