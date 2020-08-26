@@ -15,26 +15,33 @@ La structure générale est la suivante :
 ``` r
 library(rbenchmark)
 
-benchmark(replications=rep(100),
+benchmark(replications=100,
           code1,
           code2,
           columns=c('test', 'elapsed', 'replications'))
 ```
 
+Et avec un exemple :
+
 ``` r
 library(rbenchmark)
 library(data.table)
+
+# Ecriture d'un fichier de 15000 lignes 
 data(iris)
 iris <- iris[rep(rownames(iris), each=100),]
 fwrite(iris, file="irisbig.csv", sep=",")
+
+# Lecture du fichier, répétée 1000 fois. 
 benchmark(replications=rep(1000),
           test1 <- read.csv("irisbig.csv", sep=","),
-          test2 <- fread("irisbig.csv", sep=",") ,
-          test3 <- fread("irisbig.csv") ,
+          test2 <- fread("irisbig.csv"),
           columns=c('test', 'elapsed', 'replications'))
 ```
 
     ##                                          test elapsed replications
-    ## 1 test1 <- read.csv("irisbig.csv", sep = ",")  16.527         1000
-    ## 2    test2 <- fread("irisbig.csv", sep = ",")   2.951         1000
-    ## 3               test3 <- fread("irisbig.csv")   3.024         1000
+    ## 1 test1 <- read.csv("irisbig.csv", sep = ",")  13.613         1000
+    ## 2               test2 <- fread("irisbig.csv")   1.840         1000
+
+Le test2, utilisant la fonction `fread` du package `data.table` est bien
+plus rapide.
