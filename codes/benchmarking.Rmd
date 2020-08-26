@@ -49,8 +49,7 @@ De la même manière on peut utiliser le package microbenchmark qui a l'avantage
 ```{r}
 library(microbenchmark)
 library(ggplot2)
-rm(test1)
-rm(test2)
+
 # Lecture du fichier, répétée 1000 fois. 
 mb <- microbenchmark(
           read.csv("irisbig.csv", sep=","),
