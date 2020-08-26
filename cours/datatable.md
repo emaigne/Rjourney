@@ -236,7 +236,7 @@ irisblank[, MeanSepLength_species := mean(Sepal.Length), by=bycol]
 
 Ce qui permet d’envoyer une variable (character vector) dans le by.
 
-On aurait pu aussi ne pas rajouter la variable dans l’object lui même
+On aurait pu aussi ne pas rajouter la variable dans l’objet lui même
 mais créer un vecteur sans redondance avec la fonction de sélection
 `.()` directement au moment du calcul :
 
@@ -326,23 +326,16 @@ Pratique pour l’intégrer dans des calculs :
 
 ``` r
 irisblank[, numobs_species := 1:.N, by=.(Species)]
-head(irisblank)
+head(irisblank[,.(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species, numobs_species)])
 ```
 
-    ##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species newvar
-    ## 1:          5.1         3.5          1.4         0.2  setosa   10.2
-    ## 2:          4.9         3.0          1.4         0.2  setosa    9.8
-    ## 3:          4.7         3.2          1.3         0.2  setosa    9.4
-    ## 4:          4.6         3.1          1.5         0.2  setosa    9.2
-    ## 5:          5.0         3.6          1.4         0.2  setosa   10.0
-    ## 6:          5.4         3.9          1.7         0.4  setosa   10.8
-    ##    MeanSepLength_species SdSepLength_species numobs_species
-    ## 1:                 5.006           0.3524897              1
-    ## 2:                 5.006           0.3524897              2
-    ## 3:                 5.006           0.3524897              3
-    ## 4:                 5.006           0.3524897              4
-    ## 5:                 5.006           0.3524897              5
-    ## 6:                 5.006           0.3524897              6
+    ##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species numobs_species
+    ## 1:          5.1         3.5          1.4         0.2  setosa              1
+    ## 2:          4.9         3.0          1.4         0.2  setosa              2
+    ## 3:          4.7         3.2          1.3         0.2  setosa              3
+    ## 4:          4.6         3.1          1.5         0.2  setosa              4
+    ## 5:          5.0         3.6          1.4         0.2  setosa              5
+    ## 6:          5.4         3.9          1.7         0.4  setosa              6
 
 #### Et bien d’autres \!
 

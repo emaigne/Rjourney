@@ -163,7 +163,7 @@ irisblank[, MeanSepLength_species := mean(Sepal.Length), by=bycol]
 
 Ce qui permet d'envoyer une variable (character vector) dans le by. 
 
-On aurait pu aussi ne pas rajouter la variable dans l'object lui même mais créer un vecteur sans redondance avec la fonction de sélection `.()` directement au moment du calcul :
+On aurait pu aussi ne pas rajouter la variable dans l'objet lui même mais créer un vecteur sans redondance avec la fonction de sélection `.()` directement au moment du calcul :
 
 ```{r}
 irisblank[, .(MeanSepLength_species = mean(Sepal.Length)), by = .(Species)]
@@ -212,7 +212,7 @@ Pratique pour l'intégrer dans des calculs :
 
 ```{r}
 irisblank[, numobs_species := 1:.N, by=.(Species)]
-head(irisblank)
+head(irisblank[,.(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species, numobs_species)])
 ```
 
 #### Et bien d'autres !
