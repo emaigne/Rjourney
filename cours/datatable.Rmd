@@ -182,7 +182,7 @@ stat_seplength <- irisblank[, .(MeanSepLength_species = mean(Sepal.Length),
 
 A noter le renommage de la variable `Species` au même moment, très pratique.
 
-Si on avait voulu créer ces variables directement dans le jeu de données, on va remplacer la fonction ` .() `  par la fonction `` `:=`()` `:
+On aurait pu créer ces variables directement dans le jeu de données. Pour ça on remplace la fonction ` .() `  par la fonction `` `:=`()` `:
 
 ```{r}
 irisblank[, `:=`(MeanSepLength_species = mean(Sepal.Length),
