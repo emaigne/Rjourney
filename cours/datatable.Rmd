@@ -53,9 +53,9 @@ class(iris)
 ```
 On peut voir ici qu'un objet `data.table` est aussi dans la classe `data.frame`, ce qui veut dire que le base R s'applique sans problème à un objet data.table. Pas besoin de recoder toutes ses fonctions et ses programmes, bon point !
 
-### Fonction copy (allocation mémoire) !!!
+### Fonction copy (allocation mémoire)
 
-Puisqu'on parle de l'allocation mémoire, il faut savoir que `data.table` est similaire à de l'orienté objet. 
+Puisqu'on parle de l'allocation mémoire, il faut savoir que `data.table` utilise le concept de pointeurs (comme en C). 
 Le nom de l'objet utilisé dans R n'est en fait qu'un pointeur vers l'objet en mémoire. 
 
 Concrètement ça veut dire que si on copie un objet DF, qui est un `data.table`, dans DF2 en utilisant la façon traditionnelle de R `<-`, DF et DF2 pointeront tous les deux vers le même objet. Si on modifie DF2 (ou DF, ça marche dans les deux sens), ça modifiera aussi DF :
@@ -69,7 +69,7 @@ head(DF, 3)
 
 Si on ne sait pas ça ça peut vraiment créer des problèmes sans qu'on s'en rende compte. 
 
-Pour créer un "vrai"  nouvel objet en mémoire, on utilise alors la fonction `copy()` :
+Pour créer un "vrai"  nouvel objet en mémoire, on peut utiliser la fonction `copy()` :
 
 ```{r}
 DF <- as.data.table(iris)

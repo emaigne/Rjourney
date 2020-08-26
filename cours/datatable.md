@@ -59,11 +59,11 @@ On peut voir ici qu’un objet `data.table` est aussi dans la classe
 un objet data.table. Pas besoin de recoder toutes ses fonctions et ses
 programmes, bon point \!
 
-### Fonction copy (allocation mémoire) \!\!\!
+### Fonction copy (allocation mémoire)
 
 Puisqu’on parle de l’allocation mémoire, il faut savoir que `data.table`
-est similaire à de l’orienté objet. Le nom de l’objet utilisé dans R
-n’est en fait qu’un pointeur vers l’objet en mémoire.
+utilise le concept de pointeurs (comme en C). Le nom de l’objet utilisé
+dans R n’est en fait qu’un pointeur vers l’objet en mémoire.
 
 Concrètement ça veut dire que si on copie un objet DF, qui est un
 `data.table`, dans DF2 en utilisant la façon traditionnelle de R `<-`,
@@ -85,7 +85,7 @@ head(DF, 3)
 Si on ne sait pas ça ça peut vraiment créer des problèmes sans qu’on
 s’en rende compte.
 
-Pour créer un “vrai” nouvel objet en mémoire, on utilise alors la
+Pour créer un “vrai” nouvel objet en mémoire, on peut utiliser la
 fonction `copy()` :
 
 ``` r
