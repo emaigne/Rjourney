@@ -38,8 +38,8 @@ benchmark(replications=1000,
 ```
 
     ##                                          test elapsed replications
-    ## 1 test1 <- read.csv("irisbig.csv", sep = ",")  13.924         1000
-    ## 2               test2 <- fread("irisbig.csv")   1.949         1000
+    ## 1 test1 <- read.csv("irisbig.csv", sep = ",")  13.981         1000
+    ## 2               test2 <- fread("irisbig.csv")   1.964         1000
 
 Le test2, utilisant la fonction `fread` du package `data.table` est bien
 plus rapide.
@@ -62,11 +62,11 @@ mb
 
     ## Unit: milliseconds
     ##                                         expr       min        lq      mean
-    ##  test1 <- read.csv("irisbig.csv", sep = ",") 13.189501 13.399656 14.006566
-    ##                test2 <- fread("irisbig.csv")  1.596916  1.635067  1.811893
-    ##     median        uq      max neval cld
-    ##  13.536801 13.998012 53.24624  1000   b
-    ##   1.689401  1.777894 43.81017  1000  a
+    ##  test1 <- read.csv("irisbig.csv", sep = ",") 13.431326 14.167680 14.801448
+    ##                test2 <- fread("irisbig.csv")  1.591833  1.720852  1.898354
+    ##    median        uq      max neval cld
+    ##  14.57999 14.991125 58.23019  1000   b
+    ##   1.79959  1.905103 48.87562  1000  a
 
 ``` r
 autoplot(mb)
