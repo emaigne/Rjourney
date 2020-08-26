@@ -1,8 +1,6 @@
 ---
 title: "usefull codes"
-author: "Elise Maigné"
-date: "21/07/2020"
-output: jekyllthat::jekylldown
+output: html_document
 always_allow_html: true
 ---
 
@@ -57,7 +55,7 @@ On charge le résultat des élections :
 
 ```{r}
 votes <- read.csv("https://data.toulouse-metropole.fr/explore/dataset/elections-municipales-et-communautaires-2020-2eme-tour-toulouse-resultats/download/?format=csv&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", sep=";", stringsAsFactors = F)
-head(votes, 10)
+colnames(votes)
 
 votes$Pct_abstention <- votes$Abstentions/votes$Inscrits
 votes <- votes[,c("Numéro.bdv", "Pct_abstention")]
@@ -78,7 +76,7 @@ tmp <- paste0(tmp, ".geojson")
 curl_download("https://data.toulouse-metropole.fr/explore/dataset/elections-2020-decoupage-bureaux-de-vote-toulouse/download/?format=geojson&timezone=Europe/Berlin&lang=fr", tmp)
 bureaux <- geojson_read(tmp, what = "sp")
 
-head(bureaux@data, 10)
+head(bureaux@data, 4)
 ```
 Ici j'ai préféré convertir le geojson téléchargé en `SpatialPolygonDataFrame` pour pouvoir manipuler facilement les données associées au fond de carte, mais c'est plus lourd en mémoire que le geojson, notamment au moment de la représentation. 
 

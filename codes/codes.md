@@ -41,8 +41,8 @@ benchmark(replications=rep(1000),
 ```
 
     ##                                          test elapsed replications
-    ## 1 test1 <- read.csv("irisbig.csv", sep = ",")  13.799         1000
-    ## 2               test2 <- fread("irisbig.csv")   1.863         1000
+    ## 1 test1 <- read.csv("irisbig.csv", sep = ",")  13.977         1000
+    ## 2               test2 <- fread("irisbig.csv")   1.980         1000
 
 Le test2, utilisant la fonction `fread` du package `data.table` est bien
 plus rapide.
@@ -59,75 +59,30 @@ On charge le résultat des élections :
 
 ``` r
 votes <- read.csv("https://data.toulouse-metropole.fr/explore/dataset/elections-municipales-et-communautaires-2020-2eme-tour-toulouse-resultats/download/?format=csv&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", sep=";", stringsAsFactors = F)
-head(votes, 10)
+colnames(votes)
 ```
 
-    ##    Numéro Type.election Annee Type.enregistrement Numéro.tour Code.departement
-    ## 1       2            MN  2020                   V           2               31
-    ## 2       7            MN  2020                   V           2               31
-    ## 3      13            MN  2020                   V           2               31
-    ## 4      19            MN  2020                   V           2               31
-    ## 5      23            MN  2020                   V           2               31
-    ## 6      25            MN  2020                   V           2               31
-    ## 7      29            MN  2020                   V           2               31
-    ## 8      32            MN  2020                   V           2               31
-    ## 9      39            MN  2020                   V           2               31
-    ## 10     41            MN  2020                   V           2               31
-    ##    Code.commune Numéro.bdv Indicatif Inscrits Abstentions Votants
-    ## 1           555          2         I      901         425     476
-    ## 2           555          7         I      825         354     471
-    ## 3           555         13         I      990         489     501
-    ## 4           555         19         I      798         391     407
-    ## 5           555         23         I      997         526     471
-    ## 6           555         25         I      899         471     428
-    ## 7           555         29         I     1066         565     501
-    ## 8           555         32         I      882         381     501
-    ## 9           555         39         I       85          47      38
-    ## 10          555         41         I      778         423     355
-    ##    Votants.emargement Blancs Nuls Exprimes Nombre.de.listes Archipel.Citoyen
-    ## 1                 475      1    0      475                2               14
-    ## 2                 471      4    1      466                2               14
-    ## 3                 501      5    1      495                2               14
-    ## 4                 407      6    4      397                2               14
-    ## 5                 471     10    6      455                2               14
-    ## 6                 428     10    1      417                2               14
-    ## 7                 501      8    5      488                2               14
-    ## 8                 501      4    8      489                2               14
-    ## 9                  38      0    0       38                2               14
-    ## 10                355      4    3      348                2               14
-    ##    Nombre.de.voix.de.la.liste...Archipel.Citoyen
-    ## 1                                            245
-    ## 2                                            149
-    ## 3                                            256
-    ## 4                                            230
-    ## 5                                            244
-    ## 6                                            257
-    ## 7                                            293
-    ## 8                                            117
-    ## 9                                             19
-    ## 10                                           135
-    ##    Aimer.Toulouse.avec.Jean.Luc.Moudenc
-    ## 1                                    10
-    ## 2                                    10
-    ## 3                                    10
-    ## 4                                    10
-    ## 5                                    10
-    ## 6                                    10
-    ## 7                                    10
-    ## 8                                    10
-    ## 9                                    10
-    ## 10                                   10
-    ##    Nombre.de.voix.de.la.liste...Aimer.Toulouse
-    ## 1                                          230
-    ## 2                                          317
-    ## 3                                          239
-    ## 4                                          167
-    ## 5                                          211
-    ## 6                                          160
-    ## 7                                          195
-    ## 8                                          372
-    ## 9                                           19
-    ## 10                                         213
+    ##  [1] "Numéro"                                       
+    ##  [2] "Type.election"                                
+    ##  [3] "Annee"                                        
+    ##  [4] "Type.enregistrement"                          
+    ##  [5] "Numéro.tour"                                  
+    ##  [6] "Code.departement"                             
+    ##  [7] "Code.commune"                                 
+    ##  [8] "Numéro.bdv"                                   
+    ##  [9] "Indicatif"                                    
+    ## [10] "Inscrits"                                     
+    ## [11] "Abstentions"                                  
+    ## [12] "Votants"                                      
+    ## [13] "Votants.emargement"                           
+    ## [14] "Blancs"                                       
+    ## [15] "Nuls"                                         
+    ## [16] "Exprimes"                                     
+    ## [17] "Nombre.de.listes"                             
+    ## [18] "Archipel.Citoyen"                             
+    ## [19] "Nombre.de.voix.de.la.liste...Archipel.Citoyen"
+    ## [20] "Aimer.Toulouse.avec.Jean.Luc.Moudenc"         
+    ## [21] "Nombre.de.voix.de.la.liste...Aimer.Toulouse"
 
 ``` r
 votes$Pct_abstention <- votes$Abstentions/votes$Inscrits
@@ -165,31 +120,19 @@ tmp <- paste0(tmp, ".geojson")
 curl_download("https://data.toulouse-metropole.fr/explore/dataset/elections-2020-decoupage-bureaux-de-vote-toulouse/download/?format=geojson&timezone=Europe/Berlin&lang=fr", tmp)
 bureaux <- geojson_read(tmp, what = "sp")
 
-head(bureaux@data, 10)
+head(bureaux@data, 4)
 ```
 
-    ##                               nom                  adresse uniq_bdv bv2020
-    ## 1  CAPITOLE SALLE DES COMMISSIONS           HOTEL DE VILLE     0001      1
-    ## 2                   ECOLE LAKANAL      17 PL DE LA DAURADE     0004      4
-    ## 3               ECOLE JEAN JAURES         21 AVENUE FRIZAC     0052     52
-    ## 4             ECOLE PIERRE DUPONT 101 GRANDE RUE ST MICHEL     0056     56
-    ## 5                    ECOLE BAYARD          60 RUE MATABIAU     0015     15
-    ## 6                 ECOLE SAUZELONG 92 AVENUE ALBERT BEDOUCE     0065     65
-    ## 7          ECOLE MAURICE JACQUIER          7 RUE DU POITOU     0086     86
-    ## 8        GROUPE SCOLAIRE BONHOURE  20 B PLACE MARIUS PINEL     0045     45
-    ## 9                ECOLE LESPINASSE       3 RUE DU CHAIREDON     0142    142
-    ## 10                  ECOLE MOLIERE      36 RUE SAINTE LUCIE     0115    115
-    ##              geo_point
-    ## 1  43.603224, 1.444108
-    ## 2  43.601220, 1.438943
-    ## 3    43.59357, 1.45537
-    ## 4  43.587472, 1.445441
-    ## 5  43.610084, 1.447426
-    ## 6    43.57660, 1.45892
-    ## 7  43.575600, 1.413931
-    ## 8  43.605947, 1.468468
-    ## 9  43.595169, 1.434961
-    ## 10 43.588051, 1.428404
+    ##                              nom                  adresse uniq_bdv bv2020
+    ## 1 CAPITOLE SALLE DES COMMISSIONS           HOTEL DE VILLE     0001      1
+    ## 2                  ECOLE LAKANAL      17 PL DE LA DAURADE     0004      4
+    ## 3              ECOLE JEAN JAURES         21 AVENUE FRIZAC     0052     52
+    ## 4            ECOLE PIERRE DUPONT 101 GRANDE RUE ST MICHEL     0056     56
+    ##             geo_point
+    ## 1 43.603224, 1.444108
+    ## 2 43.601220, 1.438943
+    ## 3   43.59357, 1.45537
+    ## 4 43.587472, 1.445441
 
 Ici j’ai préféré convertir le geojson téléchargé en
 `SpatialPolygonDataFrame` pour pouvoir manipuler facilement les données
