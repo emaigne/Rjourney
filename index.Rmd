@@ -26,6 +26,7 @@ Des fonctions/programmes que j'utilise, que je mets ici pour m'en rappeler et/ou
 
 * [benchmarking](codes/benchmarking.html)
 * [faire une carte avec leaflet](codes/carteleaflet.html)
+* [Dépendances entre fonctions d'un package](codes/packagedependencies.html)
 
 
 <br>
