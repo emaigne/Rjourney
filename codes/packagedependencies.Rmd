@@ -238,7 +238,10 @@ plotFcnDependencies <- function(pkg) {
 Le code se lance comme ça :
 
 ```{r, warning=FALSE}
-fake <- plotFcnDependencies("SOMbrero")
-fake %>% select_nodes_by_degree(expressions = "deg > 0") %>% transform_to_subgraph_ws %>% render_graph
+plotdep <- plotFcnDependencies("SOMbrero")
+```
+
+```{r, warning=FALSE, fig.width=20, fig.height=15}
+plotdep %>% select_nodes_by_degree(expressions = "deg > 0") %>% transform_to_subgraph_ws %>% render_graph(width = 700, height = 700)
 ```
 

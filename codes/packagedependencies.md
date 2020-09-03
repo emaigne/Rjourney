@@ -249,8 +249,11 @@ plotFcnDependencies <- function(pkg) {
 Le code se lance comme ça :
 
 ``` r
-fake <- plotFcnDependencies("SOMbrero")
-fake %>% select_nodes_by_degree(expressions = "deg > 0") %>% transform_to_subgraph_ws %>% render_graph
+plotdep <- plotFcnDependencies("SOMbrero")
 ```
 
-![](packagedependencies_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+``` r
+plotdep %>% select_nodes_by_degree(expressions = "deg > 0") %>% transform_to_subgraph_ws %>% render_graph(width = 700, height = 700)
+```
+
+![](packagedependencies_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
