@@ -22,8 +22,8 @@ et dans le réseau métier “Ingé+Stat” du département ECOSOCIO de l’INRA
   - <a href="pdf/shiny_1_Server-ui.pdf" target="_blank">Fonctionnement
     de shiny</a>
 
-  - <a href="pdf/shiny_0_Exercices.pdf" target="_blank">Des
+  - <a href="pdf/shiny_2_Exercices.pdf" target="_blank">Des
     exercices</a>
 
-  - <a href="pdf/shiny_0_Extensions.pdf" target="_blank">Des
+  - <a href="pdf/shiny_3_Extensions.pdf" target="_blank">Des
     compléments</a>
