@@ -26,3 +26,5 @@ Ce cours d'une journée a été donné deux fois : aux rencontres [Ingénieurs S
 - <a href="pdf/shiny_2_Exercices.pdf" target="_blank">Des exercices</a>
 
 - <a href="pdf/shiny_3_Extensions.pdf" target="_blank">Des compléments</a>
+
+- <a href="pdf/2018_FORMATION_SHINY_complet.zip" target="_blank">Le dossier complet pour suivre les exercices (données, codes, ...)</a>

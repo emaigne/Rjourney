@@ -27,3 +27,6 @@ et dans le réseau métier “Ingé+Stat” du département ECOSOCIO de l’INRA
 
   - <a href="pdf/shiny_3_Extensions.pdf" target="_blank">Des
     compléments</a>
+
+  - <a href="pdf/2018_FORMATION_SHINY_complet.zip" target="_blank">Le
+    dossier complet pour suivre les exercices (données, codes, …)</a>
