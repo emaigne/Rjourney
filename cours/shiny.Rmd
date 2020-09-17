@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Avec Christophe Bontemps (INRAE, Toulouse) nous avons donné un cours d'introduction à Shiny.
 Le cours utilise très peu de code R, et se concentre sur les fonctions spécifiques à Shiny. 
 
-Ce cours d'une journée a été donné deux fois : aux rencontres [Ingénieurs Statisticiens de Toulouse](http://www.thibault.laurent.free.fr/ingestat.html) (en 2017) et dans le réseau métier "Ingé+Stat" du département ECOSOCIO de l'INRAE (en 2015).
+Ce cours d'une journée a été donné deux fois : dans le réseau métier "Ingé+Stat" du département ECOSOCIO de l'INRAE (en 2017) et aux rencontres [Ingénieurs Statisticiens de Toulouse](http://www.thibault.laurent.free.fr/ingestat.html) (en 2018).
 
 
 - <a href="pdf/shiny_0_CoursePresentation.pdf" target="_blank">Introduction</a>
